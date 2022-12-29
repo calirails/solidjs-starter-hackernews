@@ -11,6 +11,7 @@
     "types": ["vite/client"],
     "paths": {
       "~/*": ["./src/*"]
-    }
+    },
+    "sourceMap": true
   }
 }
