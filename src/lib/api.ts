@@ -7,6 +7,7 @@ const user = (path: string) =>
 export default async function fetchAPI(path: string) {
   const url = path.startsWith("user") ? user(path) : story(path);
   const headers = isServer ? { "User-Agent": "chrome" } : {};
+  console.table({ isServer, url, headers });
 
   try {
     let response = await fetch(url, { headers });
