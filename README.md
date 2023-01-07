@@ -19,6 +19,13 @@ npm run dev
 npm run dev -- --open
 ```
 
+## Debugging
+
+Client side debugging requires sourceMap to be set. Since we are using Vite, it's necessary to set it via `{build: {sourceMap: true }}` option within vite.config.ts. This provides client side
+debugging within the browser. Server side debugging via VSCode at this time with solid-start is
+difficult/broken since code is not attaching or stopping at breakpoints. Adding `debugger;` on page seem to help trigger breakpoints; however, the component api/ handlers are still somewhat
+unpredictable.
+
 ## Building
 
 SolidStart apps are built with _adapters_, which optimise your project for deployment to different environments.

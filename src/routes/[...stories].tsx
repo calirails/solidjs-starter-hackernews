@@ -1,5 +1,6 @@
 import { Component, createResource, For, Show } from "solid-js";
 import { A, RouteDataArgs, useRouteData } from "solid-start";
+import { isServer } from "solid-js/web";
 import Story from "~/components/story";
 import fetchAPI from "~/lib/api";
 import { IStory } from "~/types";
@@ -12,9 +13,29 @@ const mapStories = {
   job: "jobs",
 } as const;
 
+/* NOTE!: routeData is mirrored on client and server.
+ * On initial visit; i.e. this function will be triggered to load data server side.
+ * Note; however, there is also client side, in-browser execution. Redundant?
+ * Not necessarily, this is known as isomorphic execution that allows every
+ * subsequent navigation triggered by pagination within the browser to execute
+ * strictly client side to appear to execute "just like" the initial page render.
+ */
 export const routeData = ({ location, params }: RouteDataArgs) => {
   // NOTE: this creates a reactive binding via a function that
   // evaluates to the extracted page number via ?page={page-number}
+  const pageSequence = +location.query.page;
+
+  // WARNING!: always remove debuggers from code PRs.
+  // It is required for me to get VSCode to attach any breakpoints
+  // but should not be necessary if project is setup with VSCode correctly.
+  // debugger;
+
+  console.table({
+    isServer: isServer,
+    seq: pageSequence,
+    page: pageSequence || 1,
+  });
+  // debugger;
   const page = () => +location.query.page || 1;
 
   // NOTE!: "type" is overloaded and in this context, simply refers to the type
@@ -40,23 +61,23 @@ export const routeData = ({ location, params }: RouteDataArgs) => {
     fetchAPI
   );
 
-  console.log(
-    "Stories::routeData values of {page, headlineType, stories}",
-    page,
-    headlineType,
-    stories
-  );
+  // console.log(
+  //   "Stories::routeData values of {page, headlineType, stories}",
+  //   page,
+  //   headlineType,
+  //   stories
+  // );
   return { headlineType, stories, page };
 };
 
 const Stories: Component = () => {
   const { page, headlineType, stories } = useRouteData<typeof routeData>();
-  console.log(
-    "Stories::ctor values of {page, headlineType, stories}",
-    page,
-    headlineType,
-    stories
-  );
+  // console.log(
+  //   "Stories::ctor values of {page, headlineType, stories}",
+  //   page,
+  //   headlineType,
+  //   stories
+  // );
   return (
     <div class="news-view">
       <div class="news-list-nav">
