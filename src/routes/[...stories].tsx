@@ -29,13 +29,11 @@ export const routeData = ({ location, params }: RouteDataArgs) => {
   // It is required for me to get VSCode to attach any breakpoints
   // but should not be necessary if project is setup with VSCode correctly.
   // debugger;
-
-  console.table({
-    isServer: isServer,
-    seq: pageSequence,
-    page: pageSequence || 1,
-  });
-  // debugger;
+  // console.table({
+  //   isServer: isServer,
+  //   seq: pageSequence,
+  //   page: pageSequence || 1,
+  // });
   const page = () => +location.query.page || 1;
 
   // NOTE!: "type" is overloaded and in this context, simply refers to the type
